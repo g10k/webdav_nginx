@@ -1,0 +1,21 @@
+# конфигурация веб-сервера
+# webdav в той же дирректории
+
+server {
+    # порт, который будет слушать веб-сервер в ожидании запросов от пользователй
+    listen      8000;
+    charset     utf-8;
+    autoindex on;
+    # максимальный размер загружаемых на сервер данных
+    client_max_body_size 75M;
+
+    error_log /var/log/nginx-django-error.log;
+    root /var/www;
+
+    location / {
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+        dav_ext_methods PROPFIND OPTIONS;
+        create_full_put_path on;
+        dav_access user:rw group:rw all:rw;
+    }
+}
